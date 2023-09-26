@@ -18,9 +18,11 @@ fclose($file);
 
 $i = 0;
 $newFileText = [];
-
+// dd($fileText[3]);
 foreach($fileText as $singleLine) {
+    // dd($singleLine,1);
     foreach($singleLine as $singleWord) {
+        // dd($singleWord,1);
         $newLine = false;
         if(strstr($singleWord, PHP_EOL)) {
             $singleWord = str_replace(PHP_EOL, "", $singleWord);
@@ -32,27 +34,49 @@ foreach($fileText as $singleLine) {
                 ? substr($singleWord, -1)
                 : null;
 
+
+        dd(
+            mb_str_split(
+                mb_substr(
+                    $singleWord, 
+                    1, 
+                    $punctuation ? -2 : -1
+                )
+            )
+            ,1
+        );
+
+
         // get middle part of word without punctuation
-        $midWord = str_split(
-            substr(
+        $midWord = mb_str_split(
+            mb_substr(
                 $singleWord, 
                 1, 
                 $punctuation ? -2 : -1
             )
         );
+        
         shuffle($midWord);
-
+        
         $newWord = $newLine 
             ? "\n" 
             : $singleWord[0] 
                 . implode("", $midWord) 
-                . substr($singleWord, $punctuation ? -2 : -1);
+                . mb_substr($singleWord, $punctuation ? -2 : -1);
+        // dd(
+        //     $newWord,1
+        // );
         $newFileText[$i][] = $newWord;
     }
     $i++;
 }
 
+// dd(
+//     $newFileText
+// );
+
 $newFile = fopen("text_copy.txt", "w");
+// fwrite($newFile, pack("CCC", 0xef, 0xbb, 0xbf));
 
 foreach($newFileText as $newSingleLine)
     fwrite(
@@ -60,4 +84,5 @@ foreach($newFileText as $newSingleLine)
         implode(" ", $newSingleLine)
     );
 
+// file_put_contents($newFile, "\xEF\xBB\xBF".  $content); 
 fclose($newFile);
