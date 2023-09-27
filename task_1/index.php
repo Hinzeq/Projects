@@ -25,11 +25,11 @@ foreach($fileText as $singleLine) {
             $singleWord = str_replace(PHP_EOL, "", $singleWord);
             $newLine = true;
         }
-        
+
         // check if last char is punctuation
         $punctuation = ctype_punct(substr($singleWord, -1))
-                ? substr($singleWord, -1)
-                : null;
+            ? substr($singleWord, -1)
+            : null;
 
         // get middle part of word without punctuation
         $midWord = mb_str_split(
@@ -39,15 +39,33 @@ foreach($fileText as $singleLine) {
                 $punctuation ? -2 : -1
             )
         );
-        
+
         shuffle($midWord);
         
-        $newWord = $newLine 
-            ? "\n" 
-            : $singleWord[0] 
-                . implode("", $midWord) 
-                . mb_substr($singleWord, $punctuation ? -2 : -1);
+        dd($singleWord,1);
 
+        if( !($newLine && strstr($singleWord, PHP_EOL)) ) {
+            $newWord = $newLine
+            ? $singleWord[0]
+                . implode("", $midWord)
+                . mb_substr($singleWord, $punctuation ? -2 : -1) . "\n"
+            : $singleWord[0]
+                . implode("", $midWord)
+                . mb_substr($singleWord, $punctuation ? -2 : -1);
+        } else {
+            $newWord = '\n';
+        }
+
+        
+
+        // $newWord = $singleWord[0] 
+        //     . implode("", $midWord) 
+        //     . mb_substr($singleWord, $punctuation ? -2 : -1);
+
+            // $newWord = !$newLine
+            //     ? $newWord . '\n'
+            //     : $newWord;
+        
         $newFileText[$i][] = $newWord;
     }
     $i++;
