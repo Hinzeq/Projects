@@ -18,10 +18,10 @@ fclose($file);
 
 $i = 0;
 $newFileText = [];
-foreach($fileText as $singleLine) {
-    foreach($singleLine as $singleWord) {
+foreach ($fileText as $singleLine) {
+    foreach ($singleLine as $singleWord) {
         $newLine = false;
-        if(strstr($singleWord, PHP_EOL)) {
+        if (strstr($singleWord, PHP_EOL)) {
             $singleWord = str_replace(PHP_EOL, "", $singleWord);
             $newLine = true;
         }
@@ -42,29 +42,14 @@ foreach($fileText as $singleLine) {
 
         shuffle($midWord);
         
-        dd($singleWord,1);
-
-        if( !($newLine && strstr($singleWord, PHP_EOL)) ) {
-            $newWord = $newLine
-            ? $singleWord[0]
-                . implode("", $midWord)
-                . mb_substr($singleWord, $punctuation ? -2 : -1) . "\n"
-            : $singleWord[0]
-                . implode("", $midWord)
-                . mb_substr($singleWord, $punctuation ? -2 : -1);
+        if (!isset($singleWord[0])) {
+            $newWord = "\n";
         } else {
-            $newWord = '\n';
+            $newWord = $singleWord[0]
+                . implode("", $midWord)
+                . mb_substr($singleWord, $punctuation ? -2 : -1) 
+                . ($newLine ? "\n" : '');
         }
-
-        
-
-        // $newWord = $singleWord[0] 
-        //     . implode("", $midWord) 
-        //     . mb_substr($singleWord, $punctuation ? -2 : -1);
-
-            // $newWord = !$newLine
-            //     ? $newWord . '\n'
-            //     : $newWord;
         
         $newFileText[$i][] = $newWord;
     }
@@ -73,7 +58,7 @@ foreach($fileText as $singleLine) {
 
 $newFile = fopen("text_copy.txt", "w");
 
-foreach($newFileText as $newSingleLine)
+foreach ($newFileText as $newSingleLine)
     fwrite(
         $newFile,
         implode(" ", $newSingleLine)
