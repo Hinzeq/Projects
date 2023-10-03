@@ -5,9 +5,14 @@ use Project\ContentGenerator;
 
 require './config/require.php';
 
-File::saveContent(
-    $config['newFileName'],
-    ContentGenerator::generateContent(
-        File::loadContent($config['fileName'])
-    )
-);
+try {
+    File::saveContent(
+        $config['newFileName'],
+        ContentGenerator::generateContent(
+            File::loadContent($config['fileName'])
+        )
+    );
+    echo "Poprawnie zapisano plik {$config['newFileName']}";
+} catch (Exception $e) {
+    die($e->getMessage());
+}

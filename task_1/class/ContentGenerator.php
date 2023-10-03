@@ -2,15 +2,11 @@
 
 namespace Project;
 
+use Exception;
+
 class ContentGenerator
 {
-    // public function __construct(
-    //     private array $fileText = [],
-    //     private $file
-    // )
-    // {}
-
-    public static function generateContent($content)
+    public static function generateContent(?array $content)
     {
         $i = 0;
         $newFileText = [];
