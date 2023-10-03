@@ -9,7 +9,7 @@ class File
     public static function loadContent(string $fileName)
     {
         if (!file_exists($fileName)) {
-            throw new Exception("Błąd podczas odczytu, nie znaleziono pliku: {$fileName}");
+            throw new Exception("File not found: {$fileName}");
         } else {
             $file = fopen($fileName, "r");
             while ($line = fgets($file)) {
@@ -18,7 +18,7 @@ class File
             fclose($file);
 
             if (!isset($fileText)) {
-                throw new Exception("Zawartość kopiowanego pliku nie może być pusta");
+                throw new Exception("The content of the copied file cannot be empty.");
             }
 
             return $fileText;

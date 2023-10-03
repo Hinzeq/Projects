@@ -12,7 +12,7 @@ try {
             File::loadContent($config['fileName'])
         )
     );
-    echo "Poprawnie zapisano plik {$config['newFileName']}";
+    echo "File saved successfully in {$config['newFileName']}";
 } catch (Exception $e) {
     die($e->getMessage());
 }
