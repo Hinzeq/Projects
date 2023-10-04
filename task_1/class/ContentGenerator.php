@@ -2,51 +2,75 @@
 
 namespace Project;
 
-use Exception;
-
 class ContentGenerator
 {
-    public static function generateContent(?array $content)
+    private array $newFileText;
+    private string $wordToMix;
+    private string $newWord;
+    private bool $newLine;
+    private string $punctuation;
+    private array $middleWordPart;
+
+    public function generateContent(array $content): array
     {
         $i = 0;
-        $newFileText = [];
+        $this->newFileText = [];
         foreach ($content as $singleLine) {
-            foreach ($singleLine as $singleWord) {
-                $newLine = false;
-                if (strstr($singleWord, PHP_EOL)) {
-                    $singleWord = str_replace(PHP_EOL, "", $singleWord);
-                    $newLine = true;
-                }
-        
-                // check if last char is punctuation
-                $punctuation = ctype_punct(substr($singleWord, -1))
-                    ? substr($singleWord, -1)
-                    : null;
-        
-                // get middle part of word without punctuation
-                $midWord = mb_str_split(
-                    mb_substr(
-                        $singleWord, 
-                        1, 
-                        $punctuation ? -2 : -1
-                    )
-                );
-        
-                shuffle($midWord);
-                
-                if (!isset($singleWord[0])) {
-                    $newWord = "\n";
-                } else {
-                    $newWord = $singleWord[0]
-                        . implode("", $midWord)
-                        . mb_substr($singleWord, $punctuation ? -2 : -1) 
-                        . ($newLine ? "\n" : '');
-                }
-                
-                $newFileText[$i][] = $newWord;
+            foreach ($singleLine as $this->wordToMix) {
+                $this->generateWord();
+                $this->newFileText[$i][] = $this->newWord;
             }
             $i++;
         }
-        return $newFileText;
+        return $this->newFileText;
+    }
+
+    private function generateWord(): void
+    {
+        $this->checkNewLine();
+        $this->checkPunctuation();
+        $this->generateMiddleWordPart();
+        $this->generateNewWord();
+    }
+
+    private function checkNewLine(): void
+    {
+        if (strstr($this->wordToMix, PHP_EOL)) {
+            $this->wordToMix = str_replace(PHP_EOL, '', $this->wordToMix);
+            $this->newLine = true;
+        } else {
+            $this->newLine = false;
+        }
+    }
+
+    private function checkPunctuation(): void
+    {
+        $this->punctuation = ctype_punct(substr($this->wordToMix, -1))
+            ? substr($this->wordToMix, -1)
+            : '';
+    }
+
+    private function generateMiddleWordPart(): void
+    {
+        $this->middleWordPart = mb_str_split(
+            mb_substr(
+                $this->wordToMix, 
+                1, 
+                $this->punctuation ? -2 : -1
+            )
+        );
+        shuffle($this->middleWordPart);
+    }
+
+    private function generateNewWord(): void
+    {
+        if (!isset($this->wordToMix[0])) {
+            $this->newWord = "\n";
+        } else {
+            $this->newWord = $this->wordToMix[0]
+                . implode("", $this->middleWordPart)
+                . mb_substr($this->wordToMix, $this->punctuation ? -2 : -1) 
+                . ($this->newLine ? "\n" : '');
+        }
     }
 }

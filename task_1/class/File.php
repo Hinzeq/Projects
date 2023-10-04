@@ -6,34 +6,42 @@ use Exception;
 
 class File
 {
-    public static function loadContent(string $fileName)
+    public static function loadContent(?string $fileName): array
     {
-        if (!file_exists($fileName)) {
+        if (is_null($fileName)) {
+            throw new Exception('File not found.');
+        }
+        elseif (!file_exists($fileName)) {
             throw new Exception("File not found: {$fileName}");
         } else {
-            $file = fopen($fileName, "r");
+            $file = fopen($fileName, 'r');
             while ($line = fgets($file)) {
-                $fileText[] = explode(" ", $line);
+                $fileText[] = explode(' ', $line);
             }
             fclose($file);
 
             if (!isset($fileText)) {
-                throw new Exception("The content of the copied file cannot be empty.");
+                throw new Exception('The content of the copied file cannot be empty.');
             }
 
             return $fileText;
         }
     }
 
-    public static function saveContent(string $fileName, array $fileText)
+    public static function saveContent(?string $fileName, array $fileText): void
     {
-        $file = fopen($fileName, "w");
-        foreach ($fileText as $singleLine) {
-            fwrite(
-                $file,
-                implode(" ", $singleLine)
-            );
+        if (is_null($fileName)) {
+            throw new Exception('File to save not found.');
+        } else {
+            $file = fopen($fileName, 'w');
+            foreach ($fileText as $singleLine) {
+                fwrite(
+                    $file,
+                    implode(' ', $singleLine)
+                );
+            }
+            fclose($file);
         }
-        fclose($file);
+        
     }
 }

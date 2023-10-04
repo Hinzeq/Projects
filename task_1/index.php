@@ -8,7 +8,7 @@ require './config/require.php';
 try {
     File::saveContent(
         $config['newFileName'],
-        ContentGenerator::generateContent(
+        (new ContentGenerator())->generateContent(
             File::loadContent($config['fileName'])
         )
     );
