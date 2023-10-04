@@ -28,10 +28,12 @@ class File
         }
     }
 
-    public static function saveContent(?string $fileName, array $fileText): void
+    public static function saveContent(?string $fileName, ?array $fileText): void
     {
         if (is_null($fileName)) {
             throw new Exception('File to save not found.');
+        } elseif (is_null($fileText)) {
+            throw new Exception('Content cannot be null.');
         } else {
             $file = fopen($fileName, 'w');
             foreach ($fileText as $singleLine) {

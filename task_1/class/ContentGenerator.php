@@ -2,6 +2,8 @@
 
 namespace Project;
 
+use Exception;
+
 class ContentGenerator
 {
     private array $newFileText;
@@ -11,8 +13,12 @@ class ContentGenerator
     private string $punctuation;
     private array $middleWordPart;
 
-    public function generateContent(array $content): array
+    public function generateContent(?array $content): array
     {
+        if (is_null($content)) {
+            throw new Exception('Content cannot be null.');
+        }
+
         $i = 0;
         $this->newFileText = [];
         foreach ($content as $singleLine) {
@@ -22,6 +28,7 @@ class ContentGenerator
             }
             $i++;
         }
+        
         return $this->newFileText;
     }
 
