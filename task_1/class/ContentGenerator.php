@@ -68,7 +68,7 @@ class ContentGenerator
             $this->newWord = "\n";
         } else {
             $this->newWord = $this->wordToMix[0]
-                . implode("", $this->middleWordPart)
+                . implode('', $this->middleWordPart)
                 . mb_substr($this->wordToMix, $this->punctuation ? -2 : -1) 
                 . ($this->newLine ? "\n" : '');
         }
