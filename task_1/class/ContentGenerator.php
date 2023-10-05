@@ -71,7 +71,7 @@ class ContentGenerator
 
     private function generateNewWord(): void
     {
-        if (!isset($this->wordToMix[0])) {
+        if (! isset($this->wordToMix[0])) {
             $this->newWord = "\n";
         } else {
             $this->newWord = $this->wordToMix[0]

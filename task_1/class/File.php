@@ -10,8 +10,7 @@ class File
     {
         if (is_null($fileName)) {
             throw new Exception('File not found.');
-        }
-        elseif (!file_exists($fileName)) {
+        } elseif (! file_exists($fileName)) {
             throw new Exception("File not found: {$fileName}");
         } else {
             $file = fopen($fileName, 'r');
@@ -20,7 +19,7 @@ class File
             }
             fclose($file);
 
-            if (!isset($fileText)) {
+            if (! isset($fileText)) {
                 throw new Exception('The content of the copied file cannot be empty.');
             }
 
