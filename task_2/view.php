@@ -21,7 +21,14 @@
             value="Submit"
             disabled
         >
-    </form> 
+    </form><br/>
+    <?= 
+        isset($pesel)
+            ? $pesel
+                ? 'PESEL is correct'
+                : 'PESEL is incorrect'
+            : ''
+    ?>
     <script src="assets/js/pesel.js"></script>
 </body>
 </html>

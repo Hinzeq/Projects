@@ -4,7 +4,7 @@ require './config/require.php';
 
 if (isset($_POST['pesel'])) {
     try {
-        require './validation.php';
+        $pesel = require './validation.php';
     } catch (Exception $e) {
         die($e->getMessage());
     }
