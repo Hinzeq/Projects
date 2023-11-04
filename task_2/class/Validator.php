@@ -17,11 +17,11 @@ class Validator
 
     public function validate(): bool
     {
-        return $this->checkPesel(
-            is_numeric($this->pesel)
-                ? $this->pesel
-                : null
-        );
+        if (!is_numeric($this->pesel)) {
+            throw new Exception('Is not numeric.');
+        }
+
+        return $this->checkPesel();
     }
 
     private function checkPesel(): bool

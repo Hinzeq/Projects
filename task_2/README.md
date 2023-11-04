@@ -7,3 +7,8 @@ Napisz program, który będzie walidować numer PESEL zgodnie z oficjalnym algor
 ## Wskazówki:
 - Testy jednostkowe powinny uwzględniać kilka nieprawidłowych danych oraz przynajmniej jeden poprawny numer PESEL.
 - Możesz skorzystać z dostępnych w sieci źródeł opisujących specyfikację numeru PESEL.
+
+## Komenda sprawdzająca:
+```
+vendor/bin/phpunit tests --color --testdox
+```
