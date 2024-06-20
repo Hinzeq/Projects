@@ -6,8 +6,7 @@ require './config/require.php';
 
 if (isset($_POST['pesel'])) {
     try {
-        $peselValidator = new Validator($_POST['pesel']);
-        $pesel = $peselValidator->validate();
+        $pesel = (new Validator($_POST['pesel']))->validate();
     } catch (Exception $e) {
         die($e->getMessage());
     }

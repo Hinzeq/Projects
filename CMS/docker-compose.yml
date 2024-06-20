@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  php_apache:
+    container_name: php_8.2_apache_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - ./application:/var/www/html
+    networks:
+      - cms_network
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10.4
+    container_name: mariadb_10.4_container
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: cms
+      MYSQL_USER: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - cms-db:/var/lib/mysql  
+    networks:
+      - cms_network    
+
+  phpmyadmin:
+    image: phpmyadmin:5.2.1
+    container_name: phpmyadmin_container
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+    networks:
+      - cms_network        
+
+networks:
+  cms_network:
+
+volumes:
+  cms-db:
